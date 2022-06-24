@@ -1,24 +1,35 @@
 import 'react-native-gesture-handler';
-
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'react-native';
+import { useColorScheme, ActivityIndicator } from 'react-native';
 import { GlobalContext } from './src/UserContext/index';
+import { NavigationContainer } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { ThemeProvider } from 'styled-components';
+import MainStack from './src/routes/MainStack';
+
+import themes from './src/style/theme';
+import { useEffect } from 'react';
 
 export default function App() {
-  return (
-    <GlobalContext>
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <StatusBar style="auto" />
-      </View>
-    </GlobalContext>
-  );
-}
+    // let [loaded] = useFonts({
+    //     Calistoga: require('./src/assets/fonts/Calistoga-Regular.ttf'),
+    // });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    // if (!loaded) {
+    //     return <ActivityIndicator />;
+    // }
+
+    return (
+        <NavigationContainer>
+            <ThemeProvider theme={themes[useColorScheme()] || themes}>
+                <GlobalContext>
+                    <StatusBar
+                        barStyle="dark-content"
+                        backgroundColor="#E5E5E5"
+                    />
+                    <MainStack />
+                </GlobalContext>
+            </ThemeProvider>
+        </NavigationContainer>
+    );
+}
